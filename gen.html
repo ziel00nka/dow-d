@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Generator</title>
+</head>
+<body>
+	<label for="pesel">Numer dowodu osobistego:</label>
+	<input type="text" id="pesel" readonly>
+	<br><br>
+	<button onclick="generatePesel()">Generuj</button>
+
+	<script>
+		function generatePesel() {
+			const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+			const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+			let pesel = '';
+			for (let i = 0; i < 3; i++) {
+				const randomLetterIndex = Math.floor(Math.random() * letters.length);
+				pesel += letters[randomLetterIndex];
+			}
+
+			let controlSum = 0;
+			const weightFactors = [7, 3, 1, 9, 7, 3, 1, 7, 3];
+			for (let i = 0; i < 6; i++) {
+				const randomNumberIndex = Math.floor(Math.random() * numbers.length);
+				const digit = parseInt(numbers[randomNumberIndex]);
+				pesel += digit;
+				controlSum += digit * weightFactors[i];
+			}
+		
+			document.getElementById('pesel').value = pesel;
+		}
+	</script>
+</body>
+</html>
