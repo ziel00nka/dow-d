@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Generator dowodu</title>
+</head>
+<body>
+    <p></p>
+    <button>Generator numer dowodu</button>
+<script>
+// pobieramy elementy z DOM
+const paragraph = document.querySelector('p');
+const button = document.querySelector('button');
+
+// deklarujemy potrzebne zmienne
+const wagi = '73173173';
+const litery = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+// tablica z trzema literami wylosowanymi z alfabetu
+const firstPart = Array.from({ length: 3 }, () => litery[Math.floor(Math.random() * litery.length)]);
+
+// tablica z pięcioma cyframi
+const secondPart = Array.from({ length: 5 }, () => Math.floor(Math.random() * 10));
+
+// obliczamy wartość kontrolną
+const controlNumber = firstPart.reduce((a, b, c) => a + parseInt(wagi[c]) * (litery.indexOf(b) + 10), 0) + secondPart.reduce((a, b, c) => a + parseInt(wagi[c+3]) * b, 0);
+const controlDigit = controlNumber % 10;
+
+// łączymy części numeru w całość
+const idNumber = `${firstPart.join('')}${controlDigit}${secondPart.join('')}`;
+
+// funkcja generująca numer dowodu
+function generateId() {
+  return idNumber;
+}
+
+// obsługa zdarzenia kliknięcia przycisku
+button.addEventListener('click', function() {
+  // wywołujemy funkcję generującą numer dowodu i wyświetlamy go w elemencie <p>
+  paragraph.textContent = generateId();
+});
+
+// ustawiamy tekst na przycisku
+button.textContent = 'Generuj';
+
+
+</script>
+</body>
+</html> 
